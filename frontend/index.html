@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeValue Pro - Property Valuation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Original CSS remains the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1600585154526-990dced4db0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+
+        .prediction-form {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .form-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            background: #fff;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(rgba(52,152,219,0.9), rgba(52,152,219,0.9)),
+                        url('https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80');
+            background-size: cover;
+            color: white;
+        }
+
+        .about {
+            padding: 4rem 2rem;
+            background: #fff;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#predict">Valuation Form</a>
+            <a href="#contact">Contact</a>
+            <a href="#" onclick="showLogin()">Login/Signup</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Professional Property Valuation</h1>
+            <p>Complete Real Estate Assessment Platform</p>
+        </div>
+    </section>
+
+    <section class="prediction-form" id="predict">
+        <h2>Property Valuation Form</h2>
+        <form id="valuationForm">
+            <!-- Property Details -->
+            <div class="form-section">
+                <div class="form-columns">
+                    <!-- MSZoning -->
+                    <div class="form-group">
+                        <label><i class="fas fa-zone"></i> MS Zoning</label>
+                        <select class="form-control" id="MSZoning" required>
+                            <option value="A">Agriculture</option>
+                            <option value="C">Commercial</option>
+                            <option value="FV">Floating Village</option>
+                            <option value="RH">Residential High Density</option>
+                            <option value="RL">Residential Low Density</option>
+                            <option value="RM">Residential Medium Density</option>
+                        </select>
+                    </div>
+
+                    <!-- LotFrontage -->
+                    <div class="form-group">
+                        <label><i class="fas fa-ruler-horizontal"></i> Lot Frontage (ft)</label>
+                        <input type="number" class="form-control" id="LotFrontage" required>
+                    </div>
+
+                    <!-- LotArea -->
+                    <div class="form-group">
+                        <label><i class="fas fa-expand-arrows-alt"></i> Lot Area (sqft)</label>
+                        <input type="number" class="form-control" id="LotArea" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Land Contour -->
+            <div class="form-section">
+                <div class="form-columns">
+                    <div class="form-group">
+                        <label><i class="fas fa-mountain"></i> Land Contour</label>
+                        <select class="form-control" id="LandContour" required>
+                            <option value="Lvl">Level</option>
+                            <option value="Bnk">Banked</option>
+                            <option value="HLS">Hillside</option>
+                        </select>
+                    </div>
+
+                    <!-- Neighborhood -->
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Neighborhood</label>
+                        <select class="form-control" id="Neighborhood" required>
+                            <!-- Neighborhood options -->
+                            <option value="Blmngtn">Bloomington Heights</option>
+                            <option value="Blueste">Bluestem</option>
+                            <option value="BrDale">Briardale</option>
+                            <option value="BrkSide">Brookside</option>
+                            <option value="ClearCr">Clear Creek</option>
+                            <option value="CollgCr">College Creek</option>
+                            <option value="Crawfor">Crawford</option>
+                            <option value="Edwards">Edwards</option>
+                            <option value="Gilbert">Gilbert</option>
+                            <option value="IDOTRR">Iowa DOT and Rail Road</option>
+                            <option value="MeadowV">Meadow Village</option>
+                            <option value="Mitchel">Mitchell</option>
+                            <option value="Names">North Ames</option>
+                            <option value="NoRidge">Northridge</option>
+                            <option value="NPkVill">Northpark Villa</option>
+                            <option value="NridgHt">Northridge Heights</option>
+                            <option value="NWAmes">Northwest Ames</option>
+                            <option value="OldTown">Old Town</option>
+                            <option value="SWISU">South & West of Iowa State University</option>
+                            <option value="Sawyer">Sawyer</option>
+                            <option value="SawyerW">Sawyer West</option>
+                            <option value="Somerst">Somerset</option>
+                            <option value="StoneBr">Stone Brook</option>
+                            <option value="Timber">Timberland</option>
+                            <option value="Veenker">Veenker</option>
+                        </select>
+                    </div>
+                </div>           
+            </div>
+
+                    <!-- BldgType -->
+                    <div class="form-group">
+                        <label><i class="fas fa-building"></i> Building Type</label>
+                        <select class="form-control" id="BldgType" required>
+                            <option value="1Fam">Single Family</option>
+                            <option value="2fmCon">Two Family</option>
+                            <option value="Duplex">Duplex</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-home"></i> House Style</label>
+                <select class="form-control" id="houseStyle" required>
+                    <option value="1Story">One story</option>
+                    <option value="1.5Fin">1.5 Story Finished</option>
+                    <option value="1.5Unf">1.5 Story Unfinished</option>
+                    <option value="2Story">Two story</option>
+                    <option value="2.5Fin">2.5 Story Finished</option>
+                    <option value="2.5Unf">2.5 Story Unfinished</option>
+                    <option value="SFoyer">Split Foyer</option>
+                    <option value="SLvl">Split Level</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-star"></i> Overall Condition (1-10)</label>
+                <input type="number" class="form-control" id="overallCond" min="1" max="10" required>
+            </div>
+        
+
+            <div class="form-group">
+                <label><i class="fas fa-calendar-alt"></i> Year Built</label>
+                <input type="number" class="form-control" id="yearBuilt" min="1900" max="2023" required>
+            </div>
+
+            <div class="form-group">
+                <label for="yearRemodAdd"><i class="fas fa-calendar-check"></i> Remodel Year</label>
+                <input type="number" class="form-control" id="yearRemodAdd" min="1950" max="2023" required>
+            </div>
+    
+            <!-- Structural Features -->
+            <div class="form-group">
+                <label for="foundation"><i class="fas fa-archway"></i> Foundation Type</label>
+                <select class="form-control" id="foundation" required>
+                    <option value="BrkTil">Brick & Tile</option>
+                    <option value="CBlock">Cinder Block</option>
+                    <option value="PConc">Poured Concrete</option>
+                    <option value="Slab">Slab</option>
+                    <option value="Stone">Stone</option>
+                    <option value="Wood">Wood</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="heating"><i class="fas fa-fire"></i> Heating Type</label>
+                <select class="form-control" id="heating" required>
+                    <option value="Floor">Floor Furnace</option>
+                    <option value="GasA">Gas forced warm air furnace</option>
+                    <option value="GasW">Gas hot water or steam heat</option>
+                    <option value="Grav">Gravity furnace</option>
+                    <option value="OthW">Hot water or steam heat other than gas</option>
+                    <option value="Wall">Wall furnace</option>
+                </select>
+            </div>
+                
+
+            <div class="form-group">
+                <label><i class="fas fa-wind"></i> Central Air</label>
+                <select class="form-control" id="CentralAir" required>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="electrical"><i class="fas fa-bolt"></i> Electrical System</label>
+                <select class="form-control" id="electrical" required>
+                    <option value="SBrkr">Standard Circuit Breakers & Romex</option>
+                    <option value="FuseA">Fuse Box over 60 AMP (Average)</option>
+                    <option value="FuseF">60 AMP Fuse Box (Fair)</option>
+                    <option value="FuseP">60 AMP Fuse Box (Poor)</option>
+                    <option value="Mix">Mixed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-bath"></i> Full Bathrooms</label>
+                <input type="number" class="form-control" id="fullBath" min="0" max="4" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-bath"></i> Half Bathrooms</label>
+                <input type="number" class="form-control" id="halfBath" min="0" max="2" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-bed"></i> Bedrooms</label>
+                <input type="number" class="form-control" id="bedroomAbvGr" min="1" max="6" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kitchenAbvGr"><i class="fas fa-utensils"></i> Kitchens</label>
+                <input type="number" class="form-control" id="kitchenAbvGr" min="1" max="3" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="fireplaces"><i class="fas fa-fire"></i> Fireplaces</label>
+                <input type="number" class="form-control" id="fireplaces" min="0" max="3" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="garageType"><i class="fas fa-car"></i> Garage Type</label>
+                <select class="form-control" id="garageType" required>
+                    <option value="2Types">More than one type of garage</option>
+                    <option value="Attchd">Attached to home</option>
+                    <option value="Basment">Basement Garage</option>
+                    <option value="BuiltIn">Built-In (Room above)</option>
+                    <option value="CarPort">Car Port</option>
+                    <option value="Detchd">Detached from home</option>
+                    <option value="NA">No Garage</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="garageYrBlt"><i class="fas fa-calendar"></i> Garage Year Built</label>
+                <input type="number" class="form-control" id="garageYrBlt" min="1900" max="2023">
+            </div>
+    
+            <div class="form-group">
+                <label for="garageCars"><i class="fas fa-car-side"></i> Garage Capacity (cars)</label>
+                <input type="number" class="form-control" id="garageCars" min="0" max="4" required>
+            </div>
+    
+            <!-- Additional Features -->
+            <div class="form-group">
+                <label for="poolArea"><i class="fas fa-swimming-pool"></i> Pool Area (sqft)</label>
+                <input type="number" class="form-control" id="poolArea" min="0">
+            </div>
+    
+            <div class="form-group">
+                <label for="yrSold"><i class="fas fa-calendar-times"></i> Year Sold</label>
+                <input type="number" class="form-control" id="yrSold" min="2000" max="2023" required>
+            </div>
+
+            <div class="form-group" style="text-align: center; margin-top: 2rem;">
+                <button type="submit" class="form-control" style="background-color: #3498db; color: white; font-size: 1.2rem; border: none; cursor: pointer;">
+                    Predict Value
+                </button>
+            </div>
+            
+    
+        </form>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80" alt="About Us">
+        </div>
+        <div class="about-content">
+            <h2>About Our Valuation System</h2>
+            <p>Advanced property assessment platform using machine learning...</p>
+            <ul>
+                <li><i class="fas fa-check"></i> Comprehensive data analysis</li>
+                <li><i class="fas fa-check"></i> Market trend integration</li>
+                <li><i class="fas fa-check"></i> Regulatory compliance</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Contact Our Experts</h2>
+        <div class="contact-info">
+            <p><i class="fas fa-phone-alt"></i> 9354010309 | 9868444222</p>
+            <p><i class="fas fa-envelope"></i> contact@homevaluepro.com</p>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Valuation Street, Financial District</p>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('valuationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+    
+            // Debug: Log form data before sending
+            const formData = {
+                MSZoning: document.getElementById('MSZoning').value,
+                LotFrontage: Number(document.getElementById('LotFrontage').value),
+                LotArea: Number(document.getElementById('LotArea').value),
+                LandContour: document.getElementById('LandContour').value,
+                Neighborhood: document.getElementById('Neighborhood').value,
+                BldgType: document.getElementById('BldgType').value,
+                HouseStyle: document.getElementById('houseStyle').value, // Note lowercase 'h'
+                OverallCond: Number(document.getElementById('overallCond').value),
+                YearBuilt: Number(document.getElementById('yearBuilt').value),
+                YearRemodAdd: Number(document.getElementById('yearRemodAdd').value),
+                Foundation: document.getElementById('foundation').value,
+                Heating: document.getElementById('heating').value, // Note lowercase 'h'
+                CentralAir: document.getElementById('CentralAir').value,
+                Electrical: document.getElementById('electrical').value, // Note lowercase 'e'
+                FullBath: Number(document.getElementById('fullBath').value),
+                HalfBath: Number(document.getElementById('halfBath').value),
+                BedroomAbvGr: Number(document.getElementById('bedroomAbvGr').value),
+                KitchenAbvGr: Number(document.getElementById('kitchenAbvGr').value),
+                Fireplaces: Number(document.getElementById('fireplaces').value),
+                GarageType: document.getElementById('garageType').value, // Note lowercase 'g'
+                GarageYrBlt: Number(document.getElementById('garageYrBlt').value),
+                GarageCars: Number(document.getElementById('garageCars').value),
+                PoolArea: Number(document.getElementById('poolArea').value),
+                YrSold: Number(document.getElementById('yrSold').value)
+            };
+    
+            console.log('Form Data:', formData);
+    
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+    
+                console.log('Response Status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Server error: ${response.status} - ${errorText}`);
+                }
+                
+                const result = await response.json();
+                console.log('Server Response:', result);
+                
+                if (result.error) {
+                    alert(`Error: ${result.error}`);
+                } else {
+                    alert(`Predicted Value: $${result.predicted_price.toLocaleString()}`);
+                }
+                
+            } catch (error) {
+                console.error('Full Error:', error);
+                alert(`Error: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>
